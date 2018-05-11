@@ -16,4 +16,4 @@ cifar-10-batches-bin/
 *.mat
 *.zip
 *.pyc
-
+*.h5
