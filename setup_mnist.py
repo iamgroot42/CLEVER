@@ -28,13 +28,10 @@ class MNIST:
 
 
 class MNISTModel:
-    def __init__(self, restore = None, session=None, use_softmax=False):
+    def __init__(self, model, session=None, use_softmax=False):
         self.num_channels = 1
         self.image_size = 28
         self.num_labels = 10
-
-        # load model from memory
-        model = load_model(restore)
 
         # output log probability, used for black-box attack
         if not use_softmax:

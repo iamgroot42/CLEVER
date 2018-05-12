@@ -17,7 +17,7 @@ by Tsui-Wei Weng\*, Huan Zhang\*, Pin-Yu Chen, Dong Su, Yupeng Gao, Jinfeng Yi, 
 \* Equal contribution
 
 
-Setup and train models
+Setup
 -------------------------------------
 
 The code is tested with python3 and TensorFlow v1.3, v1.4 and v1.5. The following
@@ -34,19 +34,6 @@ Then clone this repository:
 ```
 git clone https://github.com/huanzhang12/CLEVER.git
 cd CLEVER
-```
-
-Prepare the MNIST and CIFAR-10 data and models:
-
-```
-python3 train_models.py
-python3 train_2layer.py
-```
-
-To download the ImageNet models:
-
-```
-python3 setup_imagenet.py
 ```
 
 To prepare the ImageNet dataset, download and unzip the following archive:
@@ -75,10 +62,9 @@ The following command collects gradient samples for 10 images in MNIST dataset;
 for each image, 3 target attack classes are chosen (random, top-2 and least likely).
 Images that are classified incorrectly will be skipped, so you might get less than
 10 images.
-The default network used has a 7-layer AlexNet-like CNN structure.
 
 ```
-python3 collect_gradients.py --dataset mnist --numimg 10
+python3 collect_gradients.py --dataset mnist --numimg 10 --model mnist_small.h5
 ```
 
 Results will be saved into folder `lipschitz_mat/mnist_normal` by default (which can be

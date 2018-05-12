@@ -98,22 +98,26 @@ if __name__ == "__main__":
     from setup_svhn import SVHN
     from setup_imagenet import ImageNet
 
+    # Same same session for Keras and Tensorflow (with dynamic memory)
     tf.set_random_seed(seed)
     config = tf.ConfigProto()
     config.gpu_options.allow_growth=True
     sess = tf.Session(config=config)
+    keras.backend.set_session(sess)
 
     # Set learning phase to testing
-    tf.keras.backend.set_learning_phase(False)
+    keras.backend.set_learning_phase(False)
 
     clever_estimator.sess = sess
     # returns the input tensor and output prediction vector
-    img, output = clever_estimator.load_model(dataset, model_name, batch_size = args['batch_size'], compute_slope = args['compute_slope'])
+    model = keras.models.load_model(model_name)
+    img, output = clever_estimator.load_model(dataset, model, batch_size = args['batch_size'], compute_slope = args['compute_slope'])
     # load dataset
     datasets_loader = {"mnist": MNIST, "cifar": CIFAR, "imagenet": partial(ImageNet, clever_estimator.model.image_size)}
     data = datasets_loader[dataset]()
     # for prediction
-    predictor = lambda x: np.squeeze(clever_estimator.model.model.predict(x))
+    #predictor = lambda x: np.squeeze(clever_estimator.model.model.predict(x))
+    predictor = lambda x: np.squeeze(sess.run(output, feed_dict = {img: x}))
 
     # generate target images
     inputs, targets, true_labels, true_ids, img_info = generate_data(data, samples=numimg, targeted=True,

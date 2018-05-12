@@ -28,13 +28,10 @@ class CIFAR:
 
 
 class CIFARModel:
-    def __init__(self, restore=None, session=None, use_softmax=False):
+    def __init__(self, model=None, session=None, use_softmax=False):
         self.num_channels = 3
         self.image_size = 32
         self.num_labels = 10
-
-        # load model from memory
-        model = load_model(restore)
 
         if not use_softmax:
             model.layers.pop()
