@@ -60,11 +60,11 @@ How to run
 The first step for computing CLEVER score is to collect gradient samples.
 The following command collects gradient samples for 10 images in MNIST dataset;
 for each image, 3 target attack classes are chosen (random, top-2 and least likely).
-Images that are classified incorrectly will be skipped, so you might get less than
-10 images.
+Images that are classified incorrectly will be skipped, so you might get fewer images
+than expected.
 
 ```
-python3 collect_gradients.py --dataset mnist --numimg 10 --model mnist_small.h5
+python3 collect_gradients.py --dataset mnist --model mnist_small.h5
 ```
 
 Results will be saved into folder `lipschitz_mat/mnist_normal` by default (which can be

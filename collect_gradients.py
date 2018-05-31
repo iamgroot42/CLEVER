@@ -34,7 +34,6 @@ if __name__ == "__main__":
     parser.add_argument("-m", "--model_name", default="normal", help = "Select model.")
     parser.add_argument("-N", "--Nsamps", type=int, default=1024, help = "number of samples per iterations")
     parser.add_argument("-i", "--Niters", type=int, default=500, help = "number of iterations. NITERS maximum gradient norms will be collected. A larger value will give a more accurate estimate")
-    parser.add_argument("-n", "--numimg", type=int, default=1, help = "number of test images to load from dataset")
     parser.add_argument("--ids", default = "", help = "use a filelist of image IDs in CSV file for attack (UNSUPPORTED)")
     parser.add_argument("--target_type", type=int, default=0b01111, help = "Binary mask for selecting targeted attack classes. bit0: top-2, bit1: random, bit2: least likely, bit3: use --ids override (UNSUPPORTED), bit4: use all labels (for untargeted)")
     parser.add_argument("-f", "--firstimg", type=int, default=0, help = "start from which image in dataset")
@@ -59,7 +58,6 @@ if __name__ == "__main__":
     dataset = args['dataset']
     model_name = args['model_name']
     start = args['firstimg']
-    numimg = args['numimg']
     save_path = args['save']
     total = 0
 
@@ -120,7 +118,7 @@ if __name__ == "__main__":
     predictor = lambda x: np.squeeze(sess.run(output, feed_dict = {img: x}))
 
     # generate target images
-    inputs, targets, true_labels, true_ids, img_info = generate_data(data, samples=numimg, targeted=True,
+    inputs, targets, true_labels, true_ids, img_info = generate_data(data, targeted=True,
                                 start=start, predictor=predictor,
                                 random_and_least_likely = True,
                                 ids = ids, target_classes = target_classes, target_type = target_type,

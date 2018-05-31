@@ -31,19 +31,19 @@ def show(img, name = "output.png"):
     for i in range(28):
         print("".join([remap[int(round(x))] for x in img[i*28:i*28+28]]))
 
-def generate_data(data, samples, targeted=True, random_and_least_likely = False, skip_wrong_label = True, start=0, ids = None,
+def generate_data(data, targeted=True, random_and_least_likely = False, skip_wrong_label = True, start=0, ids = None,
         target_classes = None, target_type = 0b1111, predictor = None, imagenet=False, remove_background_class=False):
     """
     Generate the input data to the attack algorithm.
 
     data: the images to attack
-    samples: number of samples to use
     targeted: if true, construct targeted attacks, otherwise untargeted attacks
     start: offset into data to use
     ids: true IDs of images in the dataset, if given, will use these images
     target_classes: a list of list of labels for each ids
     inception: if targeted and inception, randomly sample 100 targets intead of 1000
     """
+    samples = len(data.attack_labels)
     inputs = []
     targets = []
     true_labels = []
